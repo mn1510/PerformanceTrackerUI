@@ -6,24 +6,28 @@ import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavComponent } from './nav/nav.component';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
+import { ActivityDetailComponent } from './activities/activity-detail/activity-detail.component';
+import { ActivitiesListComponent } from './activities/activities-list/activities-list.component';
+import { SharedModule } from './_modules/shared.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
     HomeComponent,
-    RegisterComponent
+    RegisterComponent,
+    ActivityDetailComponent,
+    ActivitiesListComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    SharedModule,
     HttpClientModule,
-    BrowserAnimationsModule,
-    BsDropdownModule.forRoot()
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
