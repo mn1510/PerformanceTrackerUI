@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ActivitiesListComponent } from './activities/activities-list/activities-list.component';
 import { ActivityDetailComponent } from './activities/activity-detail/activity-detail.component';
+import { ClimbFormComponent } from './activities/climb-form/climb-form.component';
 import { authGuard } from './_guards/auth.guard';
 import { TestErrorComponent } from './errors/test-error/test-error.component';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
@@ -15,7 +16,9 @@ const routes: Routes = [
     canActivate:[authGuard],
     children:[
       {path:'activities', component:ActivitiesListComponent},
+      {path:'activities/new', component:ClimbFormComponent},
       {path:'activities/:id', component:ActivityDetailComponent},
+      {path:'activities/:id/edit', component:ClimbFormComponent},
     ]
   },
   {path:'errors', component:TestErrorComponent },

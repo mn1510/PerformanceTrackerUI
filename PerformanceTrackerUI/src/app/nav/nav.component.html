@@ -3,9 +3,12 @@
       <a class="navbar-brand" routerLink="/" routerLinkActive="active">Performance Tracker </a>
 
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
-          <ng-container *ngIf="this.accountService.currentUser$| async"> 
+          <ng-container *ngIf="this.accountService.currentUser$| async">
           <li class="nav-item">
-            <a class="nav-link" routerLink="/activities" routerLinkActive="active">Activities</a>
+            <a class="nav-link" routerLink="/activities" routerLinkActive="active">Climbs</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/activities/new" routerLinkActive="active">Log Climb</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" routerLinkActive="active">Goals</a>

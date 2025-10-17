@@ -1,0 +1,232 @@
+<div class="container mt-4">
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <h2>{{ isEditMode ? 'Edit Climb' : 'Log New Climb' }}</h2>
+      <p class="text-muted">Record your climbing session details</p>
+    </div>
+  </div>
+
+  <form [formGroup]="climbForm" (ngSubmit)="onSubmit()">
+
+    <!-- Basic Info -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <h5 class="mb-0">Basic Information</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4">
+            <label class="form-label">Date <span class="text-danger">*</span></label>
+            <input
+              type="date"
+              class="form-control"
+              formControlName="date"
+              [class.is-invalid]="hasError('date')"
+            />
+            <div class="invalid-feedback">Date is required</div>
+          </div>
+          <div class="col-md-8">
+            <label class="form-label">Location <span class="text-danger">*</span></label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="location"
+              placeholder="e.g., Brooklyn Boulders, Red Rock Canyon"
+              [class.is-invalid]="hasError('location')"
+            />
+            <div class="invalid-feedback">Location is required</div>
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <label class="form-label">Climbing Type <span class="text-danger">*</span></label>
+            <select class="form-control" formControlName="climbingType">
+              <option *ngFor="let type of climbingTypes" [value]="type">{{ type }}</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Discipline <span class="text-danger">*</span></label>
+            <select class="form-control" formControlName="discipline">
+              <option *ngFor="let disc of disciplines" [value]="disc">{{ disc }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Route Details -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <h5 class="mb-0">Route Details</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-3">
+            <label class="form-label">Rock Type</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="rockType"
+              placeholder="e.g., Granite, Limestone"
+            />
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Incline (degrees)</label>
+            <input
+              type="number"
+              class="form-control"
+              formControlName="incline"
+              placeholder="0-180"
+              [class.is-invalid]="hasError('incline')"
+            />
+            <div class="invalid-feedback">Must be between 0 and 180</div>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Hold Type</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="holdType"
+              placeholder="e.g., Crimps, Jugs"
+            />
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Setter</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="setter"
+              placeholder="Route setter name"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Performance -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <h5 class="mb-0">Performance</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4">
+            <label class="form-label">Attempt Number <span class="text-danger">*</span></label>
+            <input
+              type="number"
+              class="form-control"
+              formControlName="attemptNumber"
+              min="1"
+              [class.is-invalid]="hasError('attemptNumber')"
+            />
+            <div class="invalid-feedback">Must be at least 1</div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Outcome <span class="text-danger">*</span></label>
+            <select class="form-control" formControlName="outcome">
+              <option *ngFor="let out of outcomes" [value]="out">{{ out }}</option>
+            </select>
+            <small class="form-text text-muted">
+              Onsight: 1st try, no beta • Flash: 1st try, with beta • Redpoint: 2+ tries • Project: Not completed
+            </small>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Perceived Effort <span class="text-danger">*</span></label>
+            <div class="d-flex align-items-center">
+              <input
+                type="range"
+                class="form-range me-3"
+                formControlName="effort"
+                min="1"
+                max="10"
+                style="flex: 1;"
+              />
+              <span class="badge bg-primary effort-badge">{{ climbForm.get('effort')?.value }}/10</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-4">
+          <div class="col-md-12">
+            <label class="form-label d-block mb-3">Issues Identified</label>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="overgripping"
+                id="overgripping"
+              />
+              <label class="form-check-label" for="overgripping">
+                Overgripping
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="inefficientClips"
+                id="inefficientClips"
+              />
+              <label class="form-check-label" for="inefficientClips">
+                Inefficient Clips
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="routeReadingIssues"
+                id="routeReadingIssues"
+              />
+              <label class="form-check-label" for="routeReadingIssues">
+                Route Reading Issues
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <h5 class="mb-0">Notes</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12 mb-3">
+            <label class="form-label">Learnings</label>
+            <textarea
+              class="form-control"
+              formControlName="learnings"
+              rows="3"
+              placeholder="What did you learn from this climb? Any techniques or insights..."
+            ></textarea>
+          </div>
+          <div class="col-md-12">
+            <label class="form-label">Additional Comments</label>
+            <textarea
+              class="form-control"
+              formControlName="comments"
+              rows="3"
+              placeholder="Any other notes about this climb..."
+            ></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="row mb-5">
+      <div class="col-md-12">
+        <button type="submit" class="btn btn-primary btn-lg me-2" [disabled]="isSaving">
+          <i class="fa fa-save"></i> {{ isEditMode ? 'Update Climb' : 'Save Climb' }}
+        </button>
+        <button type="button" class="btn btn-secondary btn-lg" (click)="cancel()" [disabled]="isSaving">
+          <i class="fa fa-times"></i> Cancel
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

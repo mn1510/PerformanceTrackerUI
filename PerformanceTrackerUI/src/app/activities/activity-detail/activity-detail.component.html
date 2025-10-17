@@ -1,1 +1,173 @@
-<p>activity-detail works!</p>
+<div class="container mt-4" *ngIf="climb">
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <h2>Climb Details</h2>
+      <p class="text-muted">{{ climb.date | date:'fullDate' }}</p>
+    </div>
+    <div class="col-md-4 text-end">
+      <button class="btn btn-secondary me-2" (click)="goBack()">
+        <i class="fa fa-arrow-left"></i> Back
+      </button>
+      <button class="btn btn-warning me-2" (click)="editClimb()">
+        <i class="fa fa-edit"></i> Edit
+      </button>
+      <button class="btn btn-danger" (click)="deleteClimb()">
+        <i class="fa fa-trash"></i> Delete
+      </button>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="mb-0">{{ climb.location }}</h4>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-3">
+              <h6 class="text-muted">Type</h6>
+              <p><span class="badge bg-info">{{ climb.climbingType }}</span></p>
+            </div>
+            <div class="col-md-3">
+              <h6 class="text-muted">Discipline</h6>
+              <p><span class="badge bg-secondary">{{ climb.discipline }}</span></p>
+            </div>
+            <div class="col-md-3">
+              <h6 class="text-muted">Attempt Number</h6>
+              <p><strong>#{{ climb.attemptNumber }}</strong></p>
+            </div>
+            <div class="col-md-3">
+              <h6 class="text-muted">Outcome</h6>
+              <p>
+                <span
+                  class="badge"
+                  [class.bg-success]="climb.outcome === 'ONSIGHT' || climb.outcome === 'FLASH'"
+                  [class.bg-info]="climb.outcome === 'REDPOINT'"
+                  [class.bg-warning]="climb.outcome === 'PROJECT'"
+                >
+                  {{ climb.outcome }}
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Route Details</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-3">
+              <h6 class="text-muted">Rock Type</h6>
+              <p>{{ climb.rockType || 'Not specified' }}</p>
+            </div>
+            <div class="col-md-3">
+              <h6 class="text-muted">Incline</h6>
+              <p>{{ climb.incline ? climb.incline + '°' : 'Not specified' }}</p>
+            </div>
+            <div class="col-md-3">
+              <h6 class="text-muted">Hold Type</h6>
+              <p>{{ climb.holdType || 'Not specified' }}</p>
+            </div>
+            <div class="col-md-3">
+              <h6 class="text-muted">Setter</h6>
+              <p>{{ climb.setter || 'Not specified' }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Effort & Performance</h5>
+        </div>
+        <div class="card-body">
+          <div class="row mb-3">
+            <div class="col-md-12">
+              <h6 class="text-muted">Perceived Effort</h6>
+              <div class="progress" style="height: 30px;">
+                <div
+                  class="progress-bar"
+                  [class.bg-success]="climb.effort <= 3"
+                  [class.bg-warning]="climb.effort > 3 && climb.effort <= 7"
+                  [class.bg-danger]="climb.effort > 7"
+                  [style.width.%]="climb.effort * 10"
+                >
+                  <strong>{{ climb.effort }}/10</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <h6 class="text-muted mb-3">Issues Identified</h6>
+              <div class="issue-badges">
+                <span
+                  class="badge me-2 mb-2"
+                  [class.bg-danger]="climb.overgripping"
+                  [class.bg-secondary]="!climb.overgripping"
+                >
+                  <i class="fa" [class.fa-times-circle]="climb.overgripping" [class.fa-check-circle]="!climb.overgripping"></i>
+                  Overgripping
+                </span>
+                <span
+                  class="badge me-2 mb-2"
+                  [class.bg-danger]="climb.inefficientClips"
+                  [class.bg-secondary]="!climb.inefficientClips"
+                >
+                  <i class="fa" [class.fa-times-circle]="climb.inefficientClips" [class.fa-check-circle]="!climb.inefficientClips"></i>
+                  Inefficient Clips
+                </span>
+                <span
+                  class="badge me-2 mb-2"
+                  [class.bg-danger]="climb.routeReadingIssues"
+                  [class.bg-secondary]="!climb.routeReadingIssues"
+                >
+                  <i class="fa" [class.fa-times-circle]="climb.routeReadingIssues" [class.fa-check-circle]="!climb.routeReadingIssues"></i>
+                  Route Reading Issues
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4" *ngIf="climb.learnings || climb.comments">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Notes</h5>
+        </div>
+        <div class="card-body">
+          <div *ngIf="climb.learnings" class="mb-3">
+            <h6 class="text-muted">Learnings</h6>
+            <p class="learnings-text">{{ climb.learnings }}</p>
+          </div>
+          <div *ngIf="climb.comments">
+            <h6 class="text-muted">Comments</h6>
+            <p class="learnings-text">{{ climb.comments }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4" *ngIf="!climb">
+  <div class="alert alert-warning">
+    <i class="fa fa-exclamation-triangle"></i> Climb not found.
+  </div>
+</div>

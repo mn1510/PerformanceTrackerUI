@@ -1,1 +1,188 @@
-<p>activities-list works!</p>
+<div class="container-fluid mt-4">
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <h2>Climbing Log</h2>
+      <p class="text-muted">Track your climbing sessions</p>
+    </div>
+    <div class="col-md-4 text-end">
+      <a routerLink="/activities/new" class="btn btn-primary btn-lg">
+        <i class="fa fa-plus"></i> Log New Climb
+      </a>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-3">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Search location or comments..."
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="onFilterChange()"
+      />
+    </div>
+    <div class="col-md-2">
+      <select
+        class="form-control"
+        [(ngModel)]="selectedType"
+        (ngModelChange)="onFilterChange()"
+      >
+        <option *ngFor="let type of climbingTypes" [value]="type">{{ type }}</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <select
+        class="form-control"
+        [(ngModel)]="selectedDiscipline"
+        (ngModelChange)="onFilterChange()"
+      >
+        <option *ngFor="let disc of disciplines" [value]="disc">{{ disc }}</option>
+      </select>
+    </div>
+    <div class="col-md-5 text-end">
+      <span class="text-muted">Total: {{ filteredClimbs.length }} climbs</span>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Location</th>
+              <th>Type</th>
+              <th>Discipline</th>
+              <th>Attempt</th>
+              <th>Outcome</th>
+              <th>Effort</th>
+              <th>Issues</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let climb of filteredClimbs">
+              <td>
+                <ng-container *ngIf="!isEditing(climb.id)">
+                  {{ climb.date | date:'MMM d, y' }}
+                </ng-container>
+                <ng-container *ngIf="isEditing(climb.id)">
+                  <input
+                    type="date"
+                    class="form-control form-control-sm"
+                    [(ngModel)]="editingClimb.date"
+                  />
+                </ng-container>
+              </td>
+              <td>
+                <ng-container *ngIf="!isEditing(climb.id)">
+                  <strong>{{ climb.location }}</strong>
+                </ng-container>
+                <ng-container *ngIf="isEditing(climb.id)">
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    [(ngModel)]="editingClimb.location"
+                  />
+                </ng-container>
+              </td>
+              <td>
+                <span class="badge bg-info">{{ climb.climbingType }}</span>
+              </td>
+              <td>
+                <span class="badge bg-secondary">{{ climb.discipline }}</span>
+              </td>
+              <td class="text-center">
+                <ng-container *ngIf="!isEditing(climb.id)">
+                  #{{ climb.attemptNumber }}
+                </ng-container>
+                <ng-container *ngIf="isEditing(climb.id)">
+                  <input
+                    type="number"
+                    class="form-control form-control-sm"
+                    [(ngModel)]="editingClimb.attemptNumber"
+                    style="width: 60px;"
+                  />
+                </ng-container>
+              </td>
+              <td>
+                <span
+                  class="badge"
+                  [class.bg-success]="climb.outcome === 'ONSIGHT' || climb.outcome === 'FLASH'"
+                  [class.bg-info]="climb.outcome === 'REDPOINT'"
+                  [class.bg-warning]="climb.outcome === 'PROJECT'"
+                >
+                  {{ climb.outcome }}
+                </span>
+              </td>
+              <td>
+                <div class="effort-display">
+                  <span class="badge"
+                    [class.bg-success]="climb.effort <= 3"
+                    [class.bg-warning]="climb.effort > 3 && climb.effort <= 7"
+                    [class.bg-danger]="climb.effort > 7"
+                  >
+                    {{ climb.effort }}/10
+                  </span>
+                </div>
+              </td>
+              <td>
+                <span *ngIf="climb.overgripping" class="badge bg-danger me-1" title="Overgripping">OG</span>
+                <span *ngIf="climb.inefficientClips" class="badge bg-danger me-1" title="Inefficient Clips">IC</span>
+                <span *ngIf="climb.routeReadingIssues" class="badge bg-danger me-1" title="Route Reading Issues">RR</span>
+                <span *ngIf="!climb.overgripping && !climb.inefficientClips && !climb.routeReadingIssues" class="text-muted">-</span>
+              </td>
+              <td>
+                <ng-container *ngIf="!isEditing(climb.id)">
+                  <button
+                    class="btn btn-sm btn-warning me-1"
+                    (click)="startEdit(climb)"
+                    title="Quick Edit"
+                  >
+                    <i class="fa fa-edit"></i>
+                  </button>
+                  <a
+                    [routerLink]="['/activities', climb.id]"
+                    class="btn btn-sm btn-info me-1"
+                    title="View Details"
+                  >
+                    <i class="fa fa-eye"></i>
+                  </a>
+                  <button
+                    class="btn btn-sm btn-danger"
+                    (click)="deleteClimb(climb.id)"
+                    title="Delete"
+                  >
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </ng-container>
+                <ng-container *ngIf="isEditing(climb.id)">
+                  <button
+                    class="btn btn-sm btn-success me-1"
+                    (click)="saveEdit(climb.id)"
+                    title="Save"
+                  >
+                    <i class="fa fa-check"></i>
+                  </button>
+                  <button
+                    class="btn btn-sm btn-secondary"
+                    (click)="cancelEdit()"
+                    title="Cancel"
+                  >
+                    <i class="fa fa-times"></i>
+                  </button>
+                </ng-container>
+              </td>
+            </tr>
+            <tr *ngIf="filteredClimbs.length === 0">
+              <td colspan="9" class="text-center text-muted py-4">
+                No climbs found. <a routerLink="/activities/new">Log your first climb</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
