@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
 import { ActivitiesListComponent } from './activities/activities-list/activities-list.component';
 import { ActivityDetailComponent } from './activities/activity-detail/activity-detail.component';
 import { ClimbFormComponent } from './activities/climb-form/climb-form.component';
@@ -10,7 +11,8 @@ import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 
 const routes: Routes = [
-  {path:'', component:HomeComponent},
+  {path:'', component:LoginComponent},
+  {path:'login', component:LoginComponent},
   {path:'',
     runGuardsAndResolvers:'always',
     canActivate:[authGuard],

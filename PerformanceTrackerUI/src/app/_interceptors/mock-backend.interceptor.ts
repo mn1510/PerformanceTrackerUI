@@ -161,6 +161,7 @@ export class MockBackendInterceptor implements HttpInterceptor {
     return [
       {
         id: uuidv4(),
+        name:"Test",
         date: new Date().toISOString(),
         location: 'Brooklyn Boulders',
         climbingType: 'INDOOR' as any,
@@ -182,6 +183,7 @@ export class MockBackendInterceptor implements HttpInterceptor {
       },
       {
         id: uuidv4(),
+        name:"test2",
         date: new Date(Date.now() - 86400000).toISOString(),
         location: 'Central Rock Gym',
         climbingType: 'INDOOR' as any,
@@ -203,6 +205,7 @@ export class MockBackendInterceptor implements HttpInterceptor {
       },
       {
         id: uuidv4(),
+        name:"test",
         date: new Date(Date.now() - 172800000).toISOString(),
         location: 'The Cliffs',
         climbingType: 'INDOOR' as any,

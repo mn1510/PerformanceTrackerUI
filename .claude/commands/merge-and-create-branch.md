@@ -1,0 +1,1 @@
+commit any changes that are in the current branch and provide a suitable commit message based on code changes. Then merge current branch into the main branch and resolve any issues off the back of that merge. Then create a new branch based on the feature being added. Make sure the changes are also pushed to the remote repos.

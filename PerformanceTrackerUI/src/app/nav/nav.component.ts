@@ -23,14 +23,26 @@ export class NavComponent implements OnInit {
 
   login(){
     this.accountService.login(this.model).subscribe({
-      next: _ => 
-        this.router.navigateByUrl('/activities')
-    })
+      next: _ => {
+        this.toastr.success('Logged in successfully');
+        this.router.navigateByUrl('/activities');
+      },
+      error: error => {
+        this.toastr.error(error?.message || 'Login failed');
+      }
+    });
   }
 
 
   logout(){
-    this.accountService.logout();
-    this.router.navigateByUrl('/');
+    this.accountService.logout().subscribe({
+      next: () => {
+        this.toastr.success('Logged out successfully');
+        this.router.navigateByUrl('/login');
+      },
+      error: error => {
+        this.toastr.error('Logout failed');
+      }
+    });
   }
 }

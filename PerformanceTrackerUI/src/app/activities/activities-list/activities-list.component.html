@@ -1,16 +1,4 @@
 <div class="container-fluid mt-4">
-  <div class="row mb-4">
-    <div class="col-md-8">
-      <h2>Climbing Log</h2>
-      <p class="text-muted">Track your climbing sessions</p>
-    </div>
-    <div class="col-md-4 text-end">
-      <a routerLink="/activities/new" class="btn btn-primary btn-lg">
-        <i class="fa fa-plus"></i> Log New Climb
-      </a>
-    </div>
-  </div>
-
   <div class="row mb-3">
     <div class="col-md-3">
       <input
@@ -39,9 +27,12 @@
         <option *ngFor="let disc of disciplines" [value]="disc">{{ disc }}</option>
       </select>
     </div>
-    <div class="col-md-5 text-end">
-      <span class="text-muted">Total: {{ filteredClimbs.length }} climbs</span>
-    </div>
+      <div class="col-md-3">
+          <a routerLink="/activities/new" class="btn btn-gradient">
+            <i class="fa fa-plus"></i> Log Climb
+          </a>
+      </div>
+
   </div>
 
   <div class="row">
@@ -50,6 +41,7 @@
         <table class="table table-striped table-hover">
           <thead>
             <tr>
+              <th>Name</th>
               <th>Date</th>
               <th>Location</th>
               <th>Type</th>
@@ -63,6 +55,18 @@
           </thead>
           <tbody>
             <tr *ngFor="let climb of filteredClimbs">
+               <td>
+                <ng-container *ngIf="!isEditing(climb.id)">
+                  {{ climb.name }}
+                </ng-container>
+                <ng-container *ngIf="isEditing(climb.id)">
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    [(ngModel)]="editingClimb.name"
+                  />
+                </ng-container>
+              </td>
               <td>
                 <ng-container *ngIf="!isEditing(climb.id)">
                   {{ climb.date | date:'MMM d, y' }}
@@ -182,6 +186,9 @@
             </tr>
           </tbody>
         </table>
+            <div>
+              <span class="text-muted">Total: {{ filteredClimbs.length }} climbs</span>
+            </div>
       </div>
     </div>
   </div>

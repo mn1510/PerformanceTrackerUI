@@ -1,42 +1,26 @@
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
+<nav class="navbar navbar-expand-md navbar-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" routerLink="/" routerLinkActive="active">Performance Tracker </a>
+      <a class="navbar-brand" routerLink="/" routerLinkActive="active">Climbing Tracker</a>
 
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
           <ng-container *ngIf="this.accountService.currentUser$| async">
           <li class="nav-item">
             <a class="nav-link" routerLink="/activities" routerLinkActive="active">Climbs</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/activities/new" routerLinkActive="active">Log Climb</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLinkActive="active">Goals</a>
-          </li>
           </ng-container>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/errors" routerLinkActive="active">Errors</a>
-          </li>
         </ul>
 
         <div class="dropdown" *ngIf="(this.accountService.currentUser$| async) as user" dropdown>
             <a class="dropdown-toggle text-light" dropdownToggle> Welcome {{user.username | titlecase}}</a>
-            <div class="dropdown-menu" *dropdownMenu>
+            <div class="dropdown-menu mt-3" *dropdownMenu>
                 <a class="dropdown-item"> Edit Profile </a>
                 <a class="dropdown-item" (click)="logout()">Logout</a>
             </div>
         </div>
-        <form *ngIf="!(this.accountService.currentUser$ | async)" #loginForm="ngForm" class="d-flex" (ngSubmit)="login()" autocomplete="off">
-          <input 
-            name="username"
-            [(ngModel)]="model.username"
-            class="form-control me-2" type="text" placeholder="Username">
-          <input 
-            name="Password"
-            [(ngModel)]="model.password"
-            class="form-control me-2" type="password" placeholder="Password">
-          <button class="btn btn-success" type="submit">Login</button>
-        </form>
+
+        <div *ngIf="!(this.accountService.currentUser$ | async)" class="d-flex">
+          <a routerLink="/login" class="btn btn-outline-light">Sign In</a>
+        </div>
       </div>
 
   </nav>

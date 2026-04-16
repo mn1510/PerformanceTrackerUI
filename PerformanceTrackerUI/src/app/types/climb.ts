@@ -17,6 +17,7 @@ export enum Outcome {
 
 export interface Climb {
   id: string;
+  name:string;
   date: Date | string;
   location: string;
   climbingType: ClimbingType;

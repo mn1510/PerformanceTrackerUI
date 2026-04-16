@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from './_services/account.service';
 import { User } from './types/user';
+import { Amplify } from 'aws-amplify';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -12,12 +14,20 @@ export class AppComponent implements OnInit {
   title = 'PerformanceTrackerUI';
   users:any;
 
-  constructor(private http:HttpClient , private accountService:AccountService)
-  {}
-  ngOnInit(): void {  
-    this.getUsers();
-    this.setCurrentUser();
+  constructor(private http:HttpClient , private accountService:AccountService) {
+    // Configure Amplify for Cognito
+    Amplify.configure({
+      Auth: {
+        Cognito: {
+          userPoolId: environment.cognito.userPoolId,
+          userPoolClientId: environment.cognito.userPoolWebClientId
+        }
+      }
+    });
+  }
 
+  ngOnInit(): void {
+    this.setCurrentUser();
   }
 
   getUsers()

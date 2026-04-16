@@ -33,3 +33,32 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   border-radius: 4px;
 }
+
+.btn-outline-light:hover {
+    background: white;
+    color: #667eea;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+}
+
+.btn-gradient {
+    background: white;
+    color: #667eea;
+    font-weight: 600;
+    padding: 10px 24px;
+    border-radius: 25px;
+    border: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-gradient:hover {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(240, 147, 251, 0.4);
+}
+
+.btn-gradient i {
+    margin-right: 8px;
+}
