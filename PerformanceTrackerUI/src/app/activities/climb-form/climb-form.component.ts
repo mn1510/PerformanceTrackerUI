@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ClimbService } from '../../_services/climb.service';
+import { UserAscentService } from '../../_services/user-ascent.service';
 import { ClimbingType, Discipline, Outcome } from '../../types/climb';
 import { ToastrService } from 'ngx-toastr';
 
@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 export class ClimbFormComponent implements OnInit {
   climbForm!: FormGroup;
   isEditMode = false;
-  climbId: string | null = null;
+  climbId: number | null = null;
   isLoading = false;
   isSaving = false;
 
@@ -23,14 +23,15 @@ export class ClimbFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private climbService: ClimbService,
+    private userAscentService: UserAscentService,
     private route: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
-    this.climbId = this.route.snapshot.paramMap.get('id');
+    const idParam = this.route.snapshot.paramMap.get('id');
+    this.climbId = idParam ? Number(idParam) : null;
     this.isEditMode = !!this.climbId;
 
     this.initForm();
@@ -90,19 +91,19 @@ export class ClimbFormComponent implements OnInit {
     });
   }
 
-  loadClimb(id: string): void {
+  loadClimb(id: number): void {
     this.isLoading = true;
-    this.climbService.getClimbById(id).subscribe({
-      next: (climb) => {
-        const dateStr = new Date(climb.date).toISOString().split('T')[0];
+    this.userAscentService.getAscentById(id).subscribe({
+      next: (ascent) => {
+        const dateStr = ascent.date ? new Date(ascent.date).toISOString().split('T')[0] : '';
         this.climbForm.patchValue({
-          ...climb,
+          ...ascent,
           date: dateStr
         });
         this.isLoading = false;
       },
       error: (error) => {
-        this.toastr.error('Climb not found');
+        this.toastr.error('Ascent not found');
         console.error(error);
         this.router.navigate(['/activities']);
         this.isLoading = false;
@@ -125,31 +126,10 @@ export class ClimbFormComponent implements OnInit {
     const formValue = this.climbForm.value;
     this.isSaving = true;
 
-    if (this.isEditMode && this.climbId) {
-      this.climbService.updateClimb(this.climbId, formValue).subscribe({
-        next: () => {
-          this.toastr.success('Climb updated successfully');
-          this.router.navigate(['/activities']);
-        },
-        error: (error) => {
-          this.toastr.error('Failed to update climb');
-          console.error(error);
-          this.isSaving = false;
-        }
-      });
-    } else {
-      this.climbService.createClimb(formValue).subscribe({
-        next: () => {
-          this.toastr.success('Climb logged successfully');
-          this.router.navigate(['/activities']);
-        },
-        error: (error) => {
-          this.toastr.error('Failed to create climb');
-          console.error(error);
-          this.isSaving = false;
-        }
-      });
-    }
+    // Manual climb creation disabled - using 8a.nu data only
+    this.toastr.info('Manual climb logging is currently disabled');
+    this.isSaving = false;
+    this.router.navigate(['/activities']);
   }
 
   cancel(): void {

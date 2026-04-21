@@ -14,7 +14,8 @@ import { ClimbFormComponent } from './activities/climb-form/climb-form.component
 import { SharedModule } from './_modules/shared.module';
 import { TestErrorComponent } from './errors/test-error/test-error.component';
 import { ErrorInterceptor } from './_interceptors/error.interceptor';
-import { MockBackendInterceptor } from './_interceptors/mock-backend.interceptor';
+// import { MockBackendInterceptor } from './_interceptors/mock-backend.interceptor';
+import { AuthInterceptor } from './_interceptors/auth.interceptor';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { LoginComponent } from './login/login.component';
@@ -47,8 +48,12 @@ import { LoginComponent } from './login/login.component';
       provide: HTTP_INTERCEPTORS, useClass:ErrorInterceptor, multi:true
     },
     {
-      provide: HTTP_INTERCEPTORS, useClass:MockBackendInterceptor, multi:true
+      provide: HTTP_INTERCEPTORS, useClass:AuthInterceptor, multi:true
     }
+    // MockBackendInterceptor disabled - using real ClimbData API
+    // {
+    //   provide: HTTP_INTERCEPTORS, useClass:MockBackendInterceptor, multi:true
+    // }
   ],
   bootstrap: [AppComponent]
 })

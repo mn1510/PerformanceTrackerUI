@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ClimbService } from '../../_services/climb.service';
-import { Climb } from '../../types/climb';
+import { UserAscentService } from '../../_services/user-ascent.service';
+import { UserAscent } from '../../types/user-ascent';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -10,32 +10,32 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./activity-detail.component.css']
 })
 export class ActivityDetailComponent implements OnInit {
-  climb: Climb | undefined;
+  ascent: UserAscent | undefined;
   isLoading = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private climbService: ClimbService,
+    private userAscentService: UserAscentService,
     private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.loadClimb(id);
+      this.loadAscent(Number(id));
     }
   }
 
-  loadClimb(id: string): void {
+  loadAscent(id: number): void {
     this.isLoading = true;
-    this.climbService.getClimbById(id).subscribe({
-      next: (climb) => {
-        this.climb = climb;
+    this.userAscentService.getAscentById(id).subscribe({
+      next: (ascent) => {
+        this.ascent = ascent;
         this.isLoading = false;
       },
       error: (error) => {
-        this.toastr.error('Climb not found');
+        this.toastr.error('Ascent not found');
         console.error(error);
         this.router.navigate(['/activities']);
         this.isLoading = false;
@@ -43,29 +43,12 @@ export class ActivityDetailComponent implements OnInit {
     });
   }
 
-  deleteClimb(): void {
-    if (!this.climb) return;
-
-    if (confirm('Are you sure you want to delete this climb?')) {
-      this.isLoading = true;
-      this.climbService.deleteClimb(this.climb.id).subscribe({
-        next: () => {
-          this.toastr.success('Climb deleted successfully');
-          this.router.navigate(['/activities']);
-        },
-        error: (error) => {
-          this.toastr.error('Failed to delete climb');
-          console.error(error);
-          this.isLoading = false;
-        }
-      });
-    }
-  }
-
-  editClimb(): void {
-    if (this.climb) {
-      this.router.navigate(['/activities', this.climb.id, 'edit']);
-    }
+  getRatingStars(rating?: number): string {
+    if (!rating || rating < 1) return '';
+    // 8a.nu uses 0-4 star rating system (4 being highest)
+    const maxStars = 4;
+    const stars = Math.min(rating, maxStars); // Cap at max stars
+    return '★'.repeat(stars) + '☆'.repeat(Math.max(0, maxStars - stars));
   }
 
   goBack(): void {
