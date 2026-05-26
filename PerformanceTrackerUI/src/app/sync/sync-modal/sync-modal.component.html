@@ -1,0 +1,75 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Sync from 8a.nu</h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Status Message -->
+      <div *ngIf="statusMessage" class="alert" [ngClass]="{
+        'alert-info': currentState === SyncState.AUTHENTICATING || currentState === SyncState.SYNCING,
+        'alert-danger': currentState === SyncState.ERROR
+      }">
+        <span *ngIf="currentState === SyncState.AUTHENTICATING" class="spinner-border spinner-border-sm me-2"></span>
+        {{ statusMessage }}
+      </div>
+
+      <!-- Form -->
+      <form *ngIf="currentState === SyncState.IDLE || currentState === SyncState.ERROR" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="email" class="form-label">8a.nu Email</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            [(ngModel)]="email"
+            name="email"
+            [disabled]="isLoading"
+            (input)="onInputChange()"
+            required
+            placeholder="your@email.com">
+        </div>
+
+        <div class="mb-3">
+          <label for="userName" class="form-label">8a.nu Username</label>
+          <input
+            type="text"
+            class="form-control"
+            id="userName"
+            [(ngModel)]="userName"
+            name="userName"
+            [disabled]="isLoading"
+            (input)="onInputChange()"
+            required
+            placeholder="your-username">
+          <small class="form-text text-muted">Your 8a.nu profile username (visible in your profile URL)</small>
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">8a.nu Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            [(ngModel)]="password"
+            name="password"
+            [disabled]="isLoading"
+            (input)="onInputChange()"
+            required
+            placeholder="••••••••">
+        </div>
+
+        <div class="d-grid gap-2">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="isLoading || !email || !userName || !password">
+            <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+            {{ isLoading ? 'Syncing...' : 'Start Sync' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
