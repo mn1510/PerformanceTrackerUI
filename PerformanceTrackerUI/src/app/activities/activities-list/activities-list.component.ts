@@ -3,6 +3,8 @@ import { UserAscentService } from '../../_services/user-ascent.service';
 import { UserAscent } from '../../types/user-ascent';
 import { Subject, takeUntil } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { SyncModalComponent } from '../../sync/sync-modal/sync-modal.component';
 
 @Component({
   selector: 'app-activities-list',
@@ -25,7 +27,8 @@ export class ActivitiesListComponent implements OnInit, OnDestroy {
 
   constructor(
     private userAscentService: UserAscentService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private modalService: BsModalService
   ) {}
 
   ngOnInit(): void {
@@ -106,5 +109,14 @@ export class ActivitiesListComponent implements OnInit, OnDestroy {
     const maxStars = 4;
     const stars = Math.min(rating, maxStars); // Cap at max stars
     return '★'.repeat(stars) + '☆'.repeat(Math.max(0, maxStars - stars));
+  }
+
+  openSyncModal(): void {
+    this.modalService.show(SyncModalComponent, {
+      class: 'modal-dialog-centered',
+      backdrop: true,  // Allow backdrop click to close
+      keyboard: true,  // Allow escape key to close
+      ignoreBackdropClick: false
+    });
   }
 }

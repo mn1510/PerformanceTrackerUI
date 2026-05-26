@@ -22,6 +22,7 @@ import { LoginComponent } from './login/login.component';
 import { PyramidVisualizationComponent } from './pyramid/pyramid-visualization/pyramid-visualization.component';
 import { PyramidCardComponent } from './pyramid/pyramid-card/pyramid-card.component';
 import { PyramidAnalysisComponent } from './pyramid/pyramid-analysis/pyramid-analysis.component';
+import { SyncModalComponent } from './sync/sync-modal/sync-modal.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { PyramidAnalysisComponent } from './pyramid/pyramid-analysis/pyramid-ana
     LoginComponent,
     PyramidVisualizationComponent,
     PyramidCardComponent,
-    PyramidAnalysisComponent
+    PyramidAnalysisComponent,
+    SyncModalComponent
   ],
   imports: [
     BrowserModule,
