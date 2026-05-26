@@ -1,0 +1,46 @@
+<div class="pyramid-viz" *ngIf="pyramidData">
+  <div *ngIf="pyramidData.pyramid.length === 0" class="empty-state">
+    <p>No ascents found for these filters</p>
+  </div>
+
+  <div *ngIf="pyramidData.pyramid.length > 0">
+    <!-- Grade rows -->
+    <div class="grade-row" *ngFor="let row of pyramidData.pyramid">
+      <span class="grade-label">{{ row.grade }}</span>
+
+      <div class="bars-container">
+        <!-- Onsight bar -->
+        <div class="bar bar-onsight"
+             *ngIf="row.onsights > 0"
+             [style.width.px]="getBarWidth(row.onsights)"
+             [title]="row.onsights + ' onsights'">
+          {{ row.onsights }}
+        </div>
+
+        <!-- Flash bar -->
+        <div class="bar bar-flash"
+             *ngIf="row.flashes > 0"
+             [style.width.px]="getBarWidth(row.flashes)"
+             [title]="row.flashes + ' flashes'">
+          {{ row.flashes }}
+        </div>
+
+        <!-- Redpoint bar -->
+        <div class="bar bar-redpoint"
+             *ngIf="row.redpoints.count > 0"
+             [style.width.px]="getBarWidth(row.redpoints.count)"
+             [title]="getRedpointTooltip(row.redpoints)">
+          {{ row.redpoints.count }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Metadata summary -->
+    <div class="metadata">
+      <p><strong>Onsights:</strong> {{ getTotalOnsights() }}</p>
+      <p><strong>Flashes:</strong> {{ getTotalFlashes() }}</p>
+      <p><strong>Redpoints:</strong> {{ getTotalRedpoints() }}</p>
+      <p><strong>Total:</strong> {{ pyramidData.metadata.total_ascents }} ascents</p>
+    </div>
+  </div>
+</div>

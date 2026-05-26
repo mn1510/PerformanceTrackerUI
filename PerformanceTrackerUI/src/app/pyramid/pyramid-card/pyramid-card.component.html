@@ -1,0 +1,66 @@
+<div class="pyramid-card">
+  <div class="card-header">
+    <button type="button" class="btn-close" (click)="remove()" title="Remove pyramid">&times;</button>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters">
+    <div class="form-group">
+      <label for="country-{{ pyramidInstance.id }}">Country</label>
+      <select
+        id="country-{{ pyramidInstance.id }}"
+        class="form-control"
+        [(ngModel)]="pyramidInstance.filters.country_slug">
+        <option value="">All Countries</option>
+        <option *ngFor="let country of countries" [value]="country.slug">
+          {{ country.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="date-from-{{ pyramidInstance.id }}">From</label>
+      <input
+        type="date"
+        id="date-from-{{ pyramidInstance.id }}"
+        class="form-control"
+        [(ngModel)]="pyramidInstance.filters.date_from">
+    </div>
+
+    <div class="form-group">
+      <label for="date-to-{{ pyramidInstance.id }}">To</label>
+      <input
+        type="date"
+        id="date-to-{{ pyramidInstance.id }}"
+        class="form-control"
+        [(ngModel)]="pyramidInstance.filters.date_to">
+    </div>
+
+    <button type="button" class="btn btn-primary" (click)="loadData()">
+      Apply
+    </button>
+  </div>
+
+  <!-- Loading state -->
+  <div *ngIf="pyramidInstance.loading" class="loading-state">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p>Loading pyramid data...</p>
+  </div>
+
+  <!-- Error state -->
+  <div *ngIf="pyramidInstance.error && !pyramidInstance.loading" class="error-state alert alert-danger">
+    {{ pyramidInstance.error }}
+    <button type="button" class="btn btn-sm btn-outline-danger" (click)="loadData()">
+      Retry
+    </button>
+  </div>
+
+  <!-- Visualization -->
+  <app-pyramid-visualization
+    *ngIf="pyramidInstance.data && !pyramidInstance.loading"
+    [pyramidData]="pyramidInstance.data"
+    [maxCount]="globalMaxCount">
+  </app-pyramid-visualization>
+</div>

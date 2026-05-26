@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { UserAscent, UserAscentQueryParams } from '../types/user-ascent';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserAscentService {
-  private baseUrl = 'http://localhost:8000/api/v1';
+  private baseUrl = environment.apiUrl;
 
   private ascentsSource = new BehaviorSubject<UserAscent[]>([]);
   public ascents$: Observable<UserAscent[]> = this.ascentsSource.asObservable();

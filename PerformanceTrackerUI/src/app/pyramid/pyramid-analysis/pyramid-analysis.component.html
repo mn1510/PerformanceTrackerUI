@@ -1,0 +1,22 @@
+<div class="pyramid-analysis-container">
+  <h2>Pyramid Analysis</h2>
+
+  <div class="pyramids-grid">
+    <app-pyramid-card
+      *ngFor="let pyramid of pyramids"
+      [pyramidInstance]="pyramid"
+      [globalMaxCount]="globalMaxCount"
+      [countries]="countries"
+      (dataLoaded)="onPyramidDataLoaded($event)"
+      (removeRequested)="removePyramid($event)">
+    </app-pyramid-card>
+  </div>
+
+  <button
+    *ngIf="pyramids.length < 4"
+    type="button"
+    class="btn btn-success btn-add-pyramid"
+    (click)="addPyramid()">
+    + Add Pyramid
+  </button>
+</div>

@@ -1,0 +1,74 @@
+.pyramid-viz {
+  padding: 1rem;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  font-style: italic;
+}
+
+.grade-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.grade-label {
+  min-width: 50px;
+  font-weight: bold;
+  margin-right: 1rem;
+}
+
+.bars-container {
+  display: flex;
+  gap: 0.25rem;
+  flex: 1;
+  max-width: 450px;
+  overflow: hidden;
+}
+
+.bar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  min-width: 30px;
+  color: white;
+  font-weight: bold;
+  font-size: 0.85rem;
+  border-radius: 3px;
+  cursor: default;
+  transition: opacity 0.2s;
+}
+
+.bar:hover {
+  opacity: 0.8;
+}
+
+.bar-onsight {
+  background-color: #4CAF50;
+}
+
+.bar-flash {
+  background-color: #FFC107;
+}
+
+.bar-redpoint {
+  background-color: #2196F3;
+}
+
+.metadata {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ddd;
+}
+
+.metadata p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}

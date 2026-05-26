@@ -1,0 +1,53 @@
+.pyramid-analysis-container {
+  padding: 2rem;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+h2 {
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.pyramids-grid {
+  display: grid;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  align-items: stretch;
+}
+
+/* Desktop: 4 columns */
+@media (min-width: 1400px) {
+  .pyramids-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Tablet: 2 columns */
+@media (min-width: 768px) and (max-width: 1399px) {
+  .pyramids-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile: 1 column with horizontal scroll */
+@media (max-width: 767px) {
+  .pyramids-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    overflow-x: auto;
+  }
+
+  .pyramid-analysis-container {
+    padding: 1rem;
+  }
+}
+
+.btn-add-pyramid {
+  width: 100%;
+  max-width: 300px;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  display: block;
+  margin: 0 auto;
+}

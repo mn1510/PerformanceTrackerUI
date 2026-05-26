@@ -19,6 +19,9 @@ import { AuthInterceptor } from './_interceptors/auth.interceptor';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { LoginComponent } from './login/login.component';
+import { PyramidVisualizationComponent } from './pyramid/pyramid-visualization/pyramid-visualization.component';
+import { PyramidCardComponent } from './pyramid/pyramid-card/pyramid-card.component';
+import { PyramidAnalysisComponent } from './pyramid/pyramid-analysis/pyramid-analysis.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,10 @@ import { LoginComponent } from './login/login.component';
     TestErrorComponent,
     NotFoundComponent,
     ServerErrorComponent,
-    LoginComponent
+    LoginComponent,
+    PyramidVisualizationComponent,
+    PyramidCardComponent,
+    PyramidAnalysisComponent
   ],
   imports: [
     BrowserModule,
