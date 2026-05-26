@@ -23,6 +23,7 @@ import { PyramidVisualizationComponent } from './pyramid/pyramid-visualization/p
 import { PyramidCardComponent } from './pyramid/pyramid-card/pyramid-card.component';
 import { PyramidAnalysisComponent } from './pyramid/pyramid-analysis/pyramid-analysis.component';
 import { SyncModalComponent } from './sync/sync-modal/sync-modal.component';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { SyncModalComponent } from './sync/sync-modal/sync-modal.component';
     ReactiveFormsModule,
     SharedModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgChartsModule
   ],
   providers: [
     {

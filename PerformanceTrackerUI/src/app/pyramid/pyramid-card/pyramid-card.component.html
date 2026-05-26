@@ -10,10 +10,40 @@
       <select
         id="country-{{ pyramidInstance.id }}"
         class="form-control"
-        [(ngModel)]="pyramidInstance.filters.country_slug">
+        [(ngModel)]="pyramidInstance.filters.country_slug"
+        (ngModelChange)="onCountryChange()">
         <option value="">All Countries</option>
         <option *ngFor="let country of countries" [value]="country.slug">
           {{ country.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="area-{{ pyramidInstance.id }}">Area</label>
+      <select
+        id="area-{{ pyramidInstance.id }}"
+        class="form-control"
+        [(ngModel)]="pyramidInstance.filters.areaName"
+        (ngModelChange)="onAreaChange()"
+        [disabled]="pyramidInstance.availableAreas.length === 0">
+        <option value="">All Areas</option>
+        <option *ngFor="let area of pyramidInstance.availableAreas" [value]="area">
+          {{ area }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="crag-{{ pyramidInstance.id }}">Crag</label>
+      <select
+        id="crag-{{ pyramidInstance.id }}"
+        class="form-control"
+        [(ngModel)]="pyramidInstance.filters.cragName"
+        [disabled]="pyramidInstance.availableCrags.length === 0">
+        <option value="">All Crags</option>
+        <option *ngFor="let crag of pyramidInstance.availableCrags" [value]="crag">
+          {{ crag }}
         </option>
       </select>
     </div>
@@ -60,7 +90,6 @@
   <!-- Visualization -->
   <app-pyramid-visualization
     *ngIf="pyramidInstance.data && !pyramidInstance.loading"
-    [pyramidData]="pyramidInstance.data"
-    [maxCount]="globalMaxCount">
+    [pyramidData]="pyramidInstance.data">
   </app-pyramid-visualization>
 </div>

@@ -5,8 +5,8 @@
     <app-pyramid-card
       *ngFor="let pyramid of pyramids"
       [pyramidInstance]="pyramid"
-      [globalMaxCount]="globalMaxCount"
       [countries]="countries"
+      [ascents]="ascents"
       (dataLoaded)="onPyramidDataLoaded($event)"
       (removeRequested)="removePyramid($event)">
     </app-pyramid-card>

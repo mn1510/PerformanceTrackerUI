@@ -31,6 +31,8 @@ export interface PyramidFilters {
   country_slug: string;
   date_from: string;
   date_to: string;
+  areaName?: string;
+  cragName?: string;
 }
 
 export interface PyramidInstance {
@@ -39,6 +41,8 @@ export interface PyramidInstance {
   data: PyramidResponse | null;
   loading: boolean;
   error: string | null;
+  availableAreas: string[];
+  availableCrags: string[];
 }
 
 export interface Country {
