@@ -16,7 +16,8 @@
   position: relative;
   height: 400px;
   width: 100%;
-  margin-bottom: 1rem;
+  max-width: 800px;
+  margin: 0 auto 1rem auto;
 }
 
 .metadata {

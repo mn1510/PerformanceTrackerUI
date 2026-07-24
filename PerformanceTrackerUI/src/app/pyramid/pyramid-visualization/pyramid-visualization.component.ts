@@ -38,6 +38,7 @@ export class PyramidVisualizationComponent implements OnChanges {
     },
     scales: {
       x: {
+        stacked: true,
         beginAtZero: true,
         title: {
           display: true,
@@ -45,6 +46,7 @@ export class PyramidVisualizationComponent implements OnChanges {
         }
       },
       y: {
+        stacked: true,
         title: {
           display: true,
           text: 'Grade'
@@ -80,24 +82,24 @@ export class PyramidVisualizationComponent implements OnChanges {
       labels,
       datasets: [
         {
-          label: 'Redpoint',
-          data: redpointData,
-          backgroundColor: 'rgba(40, 167, 69, 0.7)',
-          borderColor: 'rgba(40, 167, 69, 1)',
+          label: 'Onsight',
+          data: onsightData,
+          backgroundColor: 'rgba(76, 175, 80, 0.7)',  // Green
+          borderColor: 'rgba(76, 175, 80, 1)',
           borderWidth: 1
         },
         {
           label: 'Flash',
           data: flashData,
-          backgroundColor: 'rgba(0, 123, 255, 0.7)',
-          borderColor: 'rgba(0, 123, 255, 1)',
+          backgroundColor: 'rgba(255, 152, 0, 0.7)',  // Orange
+          borderColor: 'rgba(255, 152, 0, 1)',
           borderWidth: 1
         },
         {
-          label: 'Onsight',
-          data: onsightData,
-          backgroundColor: 'rgba(255, 193, 7, 0.7)',
-          borderColor: 'rgba(255, 193, 7, 1)',
+          label: 'Redpoint',
+          data: redpointData,
+          backgroundColor: 'rgba(244, 67, 54, 0.7)',  // Red
+          borderColor: 'rgba(244, 67, 54, 1)',
           borderWidth: 1
         }
       ]

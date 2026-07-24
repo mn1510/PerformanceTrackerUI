@@ -11,6 +11,7 @@ export interface EightALoginRequest {
 export interface EightALoginResponse {
   message: string;
   session_cookie: string;
+  cookie_header: string;
   expires_in: number;
 }
 
@@ -35,10 +36,11 @@ export class SyncService {
     return this.http.post<EightALoginResponse>(`${this.baseUrl}/auth/8a-login`, body);
   }
 
-  startSync(userName: string, sessionCookie: string): Observable<IngestionTaskResponse> {
+  startSync(userName: string, sessionCookie: string, cookieHeader: string): Observable<IngestionTaskResponse> {
     const body: UserDataIngestionRequest = { userName };
     const headers = new HttpHeaders({
-      'X-8a-Session': sessionCookie
+      'X-8a-Session': sessionCookie,
+      'X-8a-Cookie-Header': cookieHeader
     });
     return this.http.post<IngestionTaskResponse>(
       `${this.baseUrl}/ingestion/user-data`,

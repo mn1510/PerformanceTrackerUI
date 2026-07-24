@@ -22,6 +22,7 @@ export class SyncModalComponent {
   currentState = SyncState.IDLE;
   errorMessage = '';
   private sessionCookie = '';
+  private cookieHeader = '';
   private autoCloseTimer: any;
 
   SyncState = SyncState; // Expose enum to template
@@ -65,6 +66,7 @@ export class SyncModalComponent {
     this.syncService.authenticate8a(this.email, this.password).subscribe({
       next: (response) => {
         this.sessionCookie = response.session_cookie;
+        this.cookieHeader = response.cookie_header;
         this.startSync();
       },
       error: (error) => {
@@ -76,7 +78,7 @@ export class SyncModalComponent {
   private startSync(): void {
     this.currentState = SyncState.SYNCING;
 
-    this.syncService.startSync(this.userName, this.sessionCookie).subscribe({
+    this.syncService.startSync(this.userName, this.sessionCookie, this.cookieHeader).subscribe({
       next: (response) => {
         this.toastr.success('Data sync has been initiated', 'Sync Started');
         // Auto-close after 3 seconds
@@ -125,6 +127,7 @@ export class SyncModalComponent {
       clearTimeout(this.autoCloseTimer);
     }
     this.sessionCookie = '';
+    this.cookieHeader = '';
     this.email = '';
     this.userName = '';
     this.password = '';
